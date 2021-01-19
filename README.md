@@ -3,102 +3,149 @@
 [![Build Status](https://travis-ci.org/dgrijalva/jwt-go.svg?branch=master)](https://travis-ci.org/dgrijalva/jwt-go)
 [![GoDoc](https://godoc.org/github.com/dgrijalva/jwt-go?status.svg)](https://godoc.org/github.com/dgrijalva/jwt-go)
 
-A [go](http://www.golang.org) (or 'golang' for search engine friendliness) implementation of [JSON Web Tokens](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html)
+[JSON Web Tokens](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html) 的[go](http://www.golang.org)实现（或搜索引擎友好的"golang"）
 
-**NEW VERSION COMING:** There have been a lot of improvements suggested since the version 3.0.0 released in 2016. I'm working now on cutting two different releases: 3.2.0 will contain any non-breaking changes or enhancements. 4.0.0 will follow shortly which will include breaking changes. See the 4.0.0 milestone to get an idea of what's coming. If you have other ideas, or would like to participate in 4.0.0, now's the time. If you depend on this library and don't want to be interrupted, I recommend you use your dependency mangement tool to pin to version 3. 
 
-**SECURITY NOTICE:** Some older versions of Go have a security issue in the cryotp/elliptic. Recommendation is to upgrade to at least 1.8.3. See issue #216 for more detail.
+**新版本即将推出：** 自2016年发布3.0.0版本以来，已经提出了许多改进建议。
+我现在正在努力削减两个不同的发行版：3.2.0将包含所有不间断的更改或增强。 
+4.0.0即将发布，其中将包括重大更改。 请参阅4.0.0里程碑以了解即将发生的事情。 
+如果您有其他想法，或者想参加4.0.0，现在是时候了。 
+如果您依赖于此库并且不想被中断，建议您使用依赖项管理工具将其固定到版本3。
 
-**SECURITY NOTICE:** It's important that you [validate the `alg` presented is what you expect](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/). This library attempts to make it easy to do the right thing by requiring key types match the expected alg, but you should take the extra step to verify it in your usage.  See the examples provided.
+**安全通知：** 一些较旧版本的Go在cryotp/eliplic中存在安全问题。 建议至少升级到1.8.3。有关更多详细信息，请参见问题＃216。
 
-## What the heck is a JWT?
+**安全通知：** 重要的是您[验证所提供的`alg`是您所期望的](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/) 。 
+这个库试图通过要求键类型与预期的alg匹配来简化正确的操作，但是您应该在使用中采取额外的步骤来验证它。请参阅提供的示例。
 
-JWT.io has [a great introduction](https://jwt.io/introduction) to JSON Web Tokens.
+## JWT到底是什么？
 
-In short, it's a signed JSON object that does something useful (for example, authentication).  It's commonly used for `Bearer` tokens in Oauth 2.  A token is made of three parts, separated by `.`'s.  The first two parts are JSON objects, that have been [base64url](http://tools.ietf.org/html/rfc4648) encoded.  The last part is the signature, encoded the same way.
+JWT.io对JSON Web令牌有[非常好的介绍](https://jwt.io/introduction) 。
 
-The first part is called the header.  It contains the necessary information for verifying the last part, the signature.  For example, which encryption method was used for signing and what key was used.
+简而言之，它是一个签名的JSON对象，可以执行一些有用的操作（例如，身份验证）。 
+它通常用于Oauth 2中的`Bearer`令牌。令牌由三部分组成，以`.`分隔。 
+前两个部分是JSON对象，它们已被[base64url](http://tools.ietf.org/html/rfc4648)编码。 
+最后一部分是签名，以相同的方式编码。
 
-The part in the middle is the interesting bit.  It's called the Claims and contains the actual stuff you care about.  Refer to [the RFC](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html) for information about reserved keys and the proper way to add your own.
+第一部分称为标题。它包含验证最后一部分（签名）的必要信息。
+例如，签名使用哪种加密方法，使用什么密钥。
 
-## What's in the box?
+中间的部分是有趣的部分。 它被称为"声明"，包含了你真正关心的东西。 请参阅[RFC](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html) ，
+了解有关保留密钥的信息以及添加自己的保留密钥的正确方法。
 
-This library supports the parsing and verification as well as the generation and signing of JWTs.  Current supported signing algorithms are HMAC SHA, RSA, RSA-PSS, and ECDSA, though hooks are present for adding your own.
+## 盒子里有什么东西？
 
-## Examples
+该库支持JWT的解析和验证以及JWT的生成和签名。 
+目前支持的签名算法是HMAC SHA、RSA、RSA-PSS和ECDSA，不过有钩子可以添加您自己的签名算法。
 
-See [the project documentation](https://godoc.org/github.com/dgrijalva/jwt-go) for examples of usage:
+## 示例
 
-* [Simple example of parsing and validating a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-Parse--Hmac)
-* [Simple example of building and signing a token](https://godoc.org/github.com/dgrijalva/jwt-go#example-New--Hmac)
-* [Directory of Examples](https://godoc.org/github.com/dgrijalva/jwt-go#pkg-examples)
+请参阅[项目文档](https://godoc.org/github.com/dgrijalva/jwt-go) 了解使用示例：
 
-## Extensions
+* [解析和验证令牌的简单示例](https://godoc.org/github.com/dgrijalva/jwt-go#example-Parse--Hmac)
+* [构建和签名令牌的简单示例](https://godoc.org/github.com/dgrijalva/jwt-go#example-New--Hmac)
+* [示例目录](https://godoc.org/github.com/dgrijalva/jwt-go#pkg-examples)
 
-This library publishes all the necessary components for adding your own signing methods.  Simply implement the `SigningMethod` interface and register a factory method using `RegisterSigningMethod`.  
+## 扩展
 
-Here's an example of an extension that integrates with multiple Google Cloud Platform signing tools (AppEngine, IAM API, Cloud KMS): https://github.com/someone1/gcp-jwt-go
+此库发布了添加您自己的签名方法所需的所有组件。
+只需实现`SigningMethod`接口，并使用`RegisterSigningMethod`注册工厂方法。
 
-## Compliance
+下面是一个扩展的例子，集成了多个谷歌云平台签名工具（AppEngine, IAM API, Cloud KMS）：https://github.com/someone1/gcp-jwt-go
 
-This library was last reviewed to comply with [RTF 7519](http://www.rfc-editor.org/info/rfc7519) dated May 2015 with a few notable differences:
+## 合规
 
-* In order to protect against accidental use of [Unsecured JWTs](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#UnsecuredJWT), tokens using `alg=none` will only be accepted if the constant `jwt.UnsafeAllowNoneSignatureType` is provided as the key.
+该库最后一次审查符合[RTF 7519](http://www.rfc-editor.org/info/rfc7519) 日期为2015年5月，但有几个显著差异：
 
-## Project Status & Versioning
+* 为了防止意外使用[不安全的JWTs](http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#UnsecuredJWT) ，
+使用`alg=none`的令牌 仅当提供常量`jwt.UnsafeAllowNoneSignatureType`作为密钥时，才会被接受。
+  
+## 项目状态和版本控制
 
-This library is considered production ready.  Feedback and feature requests are appreciated.  The API should be considered stable.  There should be very few backwards-incompatible changes outside of major version updates (and only with good reason).
+该库被认为可以投入生产。感谢您的反馈和功能要求。
+该API应该被认为是稳定的。
+除了主要版本更新之外（并且仅出于充分的理由），应该很少有向后不兼容的更改。
 
-This project uses [Semantic Versioning 2.0.0](http://semver.org).  Accepted pull requests will land on `master`.  Periodically, versions will be tagged from `master`.  You can find all the releases on [the project releases page](https://github.com/dgrijalva/jwt-go/releases).
+该项目使用[语义版本2.0.0](http://semver.org)。 
+接受的拉取请求将落在`master`上。 会定期从`master`标记版本。 
+您可以在[项目发行页面](https://github.com/dgrijalva/jwt-go/releases) 上找到所有发行版本。
 
-While we try to make it obvious when we make breaking changes, there isn't a great mechanism for pushing announcements out to users.  You may want to use this alternative package include: `gopkg.in/dgrijalva/jwt-go.v3`.  It will do the right thing WRT semantic versioning.
+尽管我们尝试在进行重大更改时使其变得明显，但是并没有一种很好的机制将通知发布给用户。
+您可能希望使用此替代软件包，包括：：`gopkg.in/dgrijalva/jwt-go.v3`。
+它将在语义版本控制方面做正确的事情。
 
-**BREAKING CHANGES:*** 
-* Version 3.0.0 includes _a lot_ of changes from the 2.x line, including a few that break the API.  We've tried to break as few things as possible, so there should just be a few type signature changes.  A full list of breaking changes is available in `VERSION_HISTORY.md`.  See `MIGRATION_GUIDE.md` for more information on updating your code.
+**破坏性 更改:*** 
 
-## Usage Tips
+* 版本3.0.0包含了 _许多_ 与2.x系列不同的变化，包括一些破坏API的变化。
+  我们试着尽可能少地破坏一些东西，所以应该只改变一些类型签名。
+  `VERSION_HISTORY.md`中提供了重大更改的完整列表。 
+  有关更新代码的更多信息，请参见`MIGRATION_GUIDE.md`。
 
-### Signing vs Encryption
+## 使用技巧
 
-A token is simply a JSON object that is signed by its author. this tells you exactly two things about the data:
+### 签名与加密
 
-* The author of the token was in the possession of the signing secret
-* The data has not been modified since it was signed
+令牌只是由其作者签名的JSON对象。 这正好告诉您有关数据的两件事：
+* 令牌的作者拥有签名密钥
+* 数据自从签名后就没有被修改过
 
-It's important to know that JWT does not provide encryption, which means anyone who has access to the token can read its contents. If you need to protect (encrypt) the data, there is a companion spec, `JWE`, that provides this functionality. JWE is currently outside the scope of this library.
+重要的是要知道JWT不提供加密，这意味着有权访问令牌的任何人都可以读取其内容。
+如果您需要保护（加密）数据，有一个配套规范`JWE`提供了此功能。
+JWE目前不在这个库的范围内。
 
-### Choosing a Signing Method
+### 选择签名方法
 
-There are several signing methods available, and you should probably take the time to learn about the various options before choosing one.  The principal design decision is most likely going to be symmetric vs asymmetric.
+有几种可用的签名方法，在选择一种方法之前，您可能需要花时间了解各种选项。
+主要的设计决策很可能是对称与非对称。
 
-Symmetric signing methods, such as HSA, use only a single secret. This is probably the simplest signing method to use since any `[]byte` can be used as a valid secret. They are also slightly computationally faster to use, though this rarely is enough to matter. Symmetric signing methods work the best when both producers and consumers of tokens are trusted, or even the same system. Since the same secret is used to both sign and validate tokens, you can't easily distribute the key for validation.
+对称签名方法，如HSA，仅使用一个秘钥。 
+这可能是最简单的签名方法，因为任何`[]byte`都可以用作有效密钥。
+它们的计算速度也略快一些， 尽管这并不足以引起重视。
+当令牌的生产者和使用者均受信任甚至是同一系统时，对称签名方法将发挥最佳作用。
+由于使用相同的秘密对令牌进行签名和验证，因此您无法轻松分发用于验证的密钥。
 
-Asymmetric signing methods, such as RSA, use different keys for signing and verifying tokens. This makes it possible to produce tokens with a private key, and allow any consumer to access the public key for verification.
+非对称签名方法，如RSA，使用不同的密钥对令牌进行签名和验证。
+这使得生成带有私钥的令牌成为可能，并允许任何使用者访问公钥进行验证。
 
-### Signing Methods and Key Types
+### 签名方法和密钥类型
 
-Each signing method expects a different object type for its signing keys. See the package documentation for details. Here are the most common ones:
+每个签名方法都要求其签名密钥具有不同的对象类型。
+有关详细信息，请参阅软件包文档。以下是最常见的：
 
-* The [HMAC signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) expect `[]byte` values for signing and validation
-* The [RSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) expect `*rsa.PrivateKey` for signing and `*rsa.PublicKey` for validation
-* The [ECDSA signing method](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) expect `*ecdsa.PrivateKey` for signing and `*ecdsa.PublicKey` for validation
+* [HMAC签名方法](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodHMAC) (`HS256`,`HS384`,`HS512`) 需要`[]byte`值进行签名和验证
+* [RSA签名方法](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodRSA) (`RS256`,`RS384`,`RS512`) 需要 `*rsa.PrivateKey`私钥进行签名和`*rsa.PublicKey`公钥进行验证
+* [ECDSA签名方法](https://godoc.org/github.com/dgrijalva/jwt-go#SigningMethodECDSA) (`ES256`,`ES384`,`ES512`) 需要 `*ecdsa.PrivateKey`私钥进行签名和`*ecdsa.PublicKey`公钥进行验证
 
-### JWT and OAuth
+### JWT和OAuth
 
-It's worth mentioning that OAuth and JWT are not the same thing. A JWT token is simply a signed JSON object. It can be used anywhere such a thing is useful. There is some confusion, though, as JWT is the most common type of bearer token used in OAuth2 authentication.
+值得一提的是，OAuth和JWT不是一回事。
+JWT令牌只是一个签名的JSON对象。
+它可以用在任何有用的地方。
+不过，有一些混淆，因为JWT是OAuth2身份验证中使用的最常见的承载令牌类型。
 
-Without going too far down the rabbit hole, here's a description of the interaction of these technologies:
+在不费吹灰之力的情况下，以下是对这些技术相互作用的描述：：
 
-* OAuth is a protocol for allowing an identity provider to be separate from the service a user is logging in to. For example, whenever you use Facebook to log into a different service (Yelp, Spotify, etc), you are using OAuth.
-* OAuth defines several options for passing around authentication data. One popular method is called a "bearer token". A bearer token is simply a string that _should_ only be held by an authenticated user. Thus, simply presenting this token proves your identity. You can probably derive from here why a JWT might make a good bearer token.
-* Because bearer tokens are used for authentication, it's important they're kept secret. This is why transactions that use bearer tokens typically happen over SSL.
+* OAuth是一种协议，用于允许身份提供者与用户登录的服务分开。 
+  例如，每当您使用Facebook登录到其他服务（Yelp，Spotify等）时，都在使用OAuth。
+  
+* OAuth定义了一些用于传递身份验证数据的选项。 
+  一种流行的方法称为"bearer token"（承载令牌）。 
+  承载令牌只是一个字符串，仅 _应_ 由经过身份验证的用户持有。 
+  因此，只需出示此令牌即可证明您的身份。 
+  您可能可以从这里得出为什么JWT可以成为一个好的承载令牌的原因。
+  
+* 由于承载令牌用于身份验证，因此将它们保密是很重要的。 
+  这就是使用承载令牌的事务通常通过SSL进行的原因。
 
-### Troubleshooting
+### 故障排除
 
-This library uses descriptive error messages whenever possible. If you are not getting the expected result, have a look at the errors. The most common place people get stuck is providing the correct type of key to the parser. See the above section on signing methods and key types.
+该库尽可能使用描述性错误消息。 
+如果没有得到预期的结果，请查看错误。
+人们最常遇到的问题是为解析器提供正确类型的密钥。
+请参阅以上有关签名方法和密钥类型的部分。
 
-## More
+## 更多
 
-Documentation can be found [on godoc.org](http://godoc.org/github.com/dgrijalva/jwt-go).
+文档可以在[godoc.org](http://godoc.org/github.com/dgrijalva/jwt-go) 上找到。
 
-The command line utility included in this project (cmd/jwt) provides a straightforward example of token creation and parsing as well as a useful tool for debugging your own integration. You'll also find several implementation examples in the documentation.
+此项目中包含的命令行实用程序（cmd/jwt）提供了一个令牌创建和解析的简单示例，
+以及一个用于调试您自己的集成的有用工具。您还可以在文档中找到几个实现示例。
